@@ -1,13 +1,22 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using PsawSharp.Entries;
 using PsawSharp.Requests.Options;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace PsawSharp.Tests
 {
     public class PsawClientTests
     {
+
+        private readonly ITestOutputHelper _output;
+
+        public PsawClientTests(ITestOutputHelper output)
+        {
+            _output = output;
+        }
 
         [Fact]
         public async Task GetMeta()
@@ -82,6 +91,28 @@ namespace PsawSharp.Tests
             });
 
             Assert.Equal(500, comments.Length);
+        }
+
+        [Fact]
+        public async Task RateLimit()
+        {
+            var client = new PsawClient();
+            var options = new SearchOptions
+            {
+                Subreddit = "game",
+                Size = 1
+            };
+
+            var sw = Stopwatch.StartNew();
+
+            for (int i = 0; i < 180; i++)
+            {
+                await client.Search<Submission>(options);
+                _output.WriteLine(i + " done in " + sw.Elapsed.TotalMilliseconds);
+            }
+
+            // 180 requests should end in more than 2 minutes
+            Assert.True(sw.Elapsed.TotalSeconds > 120);
         }
 
     }

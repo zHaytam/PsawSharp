@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PsawSharp.Requests.Options;
+using RateLimiter;
 
 namespace PsawSharp.Requests
 {
@@ -15,6 +16,7 @@ namespace PsawSharp.Requests
         #region Fields
 
         private readonly RequestsManagerOptions _options;
+        private readonly TimeLimiter _timeLimiter;
         private HttpClient _httpClient;
 
         #endregion
@@ -22,18 +24,29 @@ namespace PsawSharp.Requests
         public RequestsManager()
         {
             _options = new RequestsManagerOptions();
+            _timeLimiter = TimeLimiter.GetFromMaxCountByInterval(RequestsConstants.MaxRequestsPerMinute, TimeSpan.FromSeconds(60));
             InitializeHttpClient();
         }
 
         public RequestsManager(RequestsManagerOptions options)
         {
             _options = options;
+            _timeLimiter = TimeLimiter.GetFromMaxCountByInterval(RequestsConstants.MaxRequestsPerMinute, TimeSpan.FromSeconds(60));
             InitializeHttpClient();
         }
 
         #region Internal Methods
 
-        internal async Task<JToken> ExecuteGet(string route, List<string> args = null)
+        internal async Task<JToken> PerformGet(string route, List<string> args = null)
+        {
+            return await _timeLimiter.Perform(() => ExecuteGet(route, args));
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private async Task<JToken> ExecuteGet(string route, List<string> args = null)
         {
             // Execute request and ensure it didn't fail
             var response = await _httpClient.GetAsync(ConstructUrl(route, args));
@@ -43,10 +56,6 @@ namespace PsawSharp.Requests
             string result = await response.Content.ReadAsStringAsync();
             return JToken.Parse(result);
         }
-
-        #endregion
-
-        #region Private Methods
 
         private string ConstructUrl(string route, List<string> args) => args == null ? route : $"{route}?{ArgsToString(args)}";
 

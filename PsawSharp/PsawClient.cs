@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using PsawSharp.Entries;
 using PsawSharp.Requests;
 using PsawSharp.Requests.Options;
@@ -33,20 +30,20 @@ namespace PsawSharp
         {
             string type = typeof(T).Name.ToLower();
             string route = string.Format(RequestsConstants.SearchRoute, type);
-            var result = await _requestsManager.ExecuteGet(route, options?.ToArgs());
+            var result = await _requestsManager.PerformGet(route, options?.ToArgs());
             return result["data"].ToObject<T[]>();
         }
 
         public async Task<string[]> GetSubmissionCommentIds(string base36SubmissionId)
         {
             string route = string.Format(RequestsConstants.CommentIdsRoute, base36SubmissionId);
-            var result = await _requestsManager.ExecuteGet(route);
+            var result = await _requestsManager.PerformGet(route);
             return result["data"].ToObject<string[]>();
         }
 
         public async Task<Meta> GetMeta()
         {
-            var result = await _requestsManager.ExecuteGet("meta");
+            var result = await _requestsManager.PerformGet("meta");
             return result.ToObject<Meta>();
         }
 
