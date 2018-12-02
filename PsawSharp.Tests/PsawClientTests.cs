@@ -115,5 +115,18 @@ namespace PsawSharp.Tests
             Assert.True(sw.Elapsed.TotalSeconds > 120);
         }
 
+        [Fact]
+        public async Task ProxyUsage()
+        {
+            var client = new PsawClient(new RequestsManagerOptions
+            {
+                ProxyAddress = "178.217.194.175:49850"
+            });
+
+            var meta = await client.GetMeta();
+            Assert.Equal("178.217.194.175", meta.SourceIp);
+            Assert.Equal("PL", meta.ClientRequestHeaders.CfIpCountry);
+        }
+
     }
 }

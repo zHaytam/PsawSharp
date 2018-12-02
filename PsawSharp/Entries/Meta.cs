@@ -17,8 +17,8 @@ namespace PsawSharp.Entries
         [JsonProperty("server_ratelimit_per_minute")]
         public int ServerRatelimitPerMinute { get; set; }
 
-        [JsonProperty("sourceip")]
-        public string Sourceip { get; set; }
+        [JsonProperty("source-ip")]
+        public string SourceIp { get; set; }
 
     }
 
@@ -28,25 +28,22 @@ namespace PsawSharp.Entries
         [JsonProperty("ACCEPT")]
         public string Accept { get; set; }
 
-        [JsonProperty("ACCEPTENCODING")]
+        [JsonProperty("ACCEPT-ENCODING")]
         public string AcceptEncoding { get; set; }
 
-        [JsonProperty("ACCEPTLANGUAGE")]
+        [JsonProperty("ACCEPT-LANGUAGE")]
         public string AcceptLanguage { get; set; }
 
-        [JsonProperty("CACHECONTROL")]
-        public string CacheControl { get; set; }
-
-        [JsonProperty("CFCONNECTINGIP")]
+        [JsonProperty("CF-CONNECTING-IP")]
         public string CfConnectingIp { get; set; }
 
-        [JsonProperty("CFIPCOUNTRY")]
+        [JsonProperty("CF-IPCOUNTRY")]
         public string CfIpCountry { get; set; }
 
-        [JsonProperty("CFRAY")]
+        [JsonProperty("CF-RAY")]
         public string Cfray { get; set; }
 
-        [JsonProperty("CFVISITOR")]
+        [JsonProperty("CF-VISITOR")]
         public string CfVisitor { get; set; }
 
         [JsonProperty("CONNECTION")]
@@ -58,16 +55,16 @@ namespace PsawSharp.Entries
         [JsonProperty("HOST")]
         public string Host { get; set; }
 
-        [JsonProperty("UPGRADEINSECUREREQUESTS")]
+        [JsonProperty("UPGRADE-INSECURE-REQUESTS")]
         public string UpgradeInsecureRequests { get; set; }
 
-        [JsonProperty("USERAGENT")]
+        [JsonProperty("USER-AGENT")]
         public string Useragent { get; set; }
 
-        [JsonProperty("XFORWARDEDFOR")]
+        [JsonProperty("X-FORWARDED-FOR")]
         public string XForwardedFor { get; set; }
 
-        [JsonProperty("XFORWARDEDPROTO")]
+        [JsonProperty("X-FORWARDED-PROTO")]
         public string XForwardedProto { get; set; }
 
     }
