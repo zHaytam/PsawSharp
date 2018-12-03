@@ -14,11 +14,12 @@ namespace PsawSharp.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var token = JToken.Load(reader);
-            if (!token.HasValues)
+            var unixts = token.Value<long?>();
+            if (unixts == null)
                 return null;
 
             var dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dtDateTime = dtDateTime.AddSeconds(token.Value<long>());
+            dtDateTime = dtDateTime.AddSeconds(unixts.Value);
             return dtDateTime;
         }
 

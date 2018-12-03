@@ -4,7 +4,7 @@ using PsawSharp.Converters;
 
 namespace PsawSharp.Entries
 {
-    public class Comment : IEntry
+    public class CommentEntry : IEntry
     {
 
         [JsonProperty("approved_at_utc")]

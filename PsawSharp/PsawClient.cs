@@ -28,7 +28,7 @@ namespace PsawSharp
 
         public async Task<T[]> Search<T>(SearchOptions options = null) where T : IEntry
         {
-            string type = typeof(T).Name.ToLower();
+            string type = typeof(T).Name.Replace("Entry", "").ToLower();
             string route = string.Format(RequestsConstants.SearchRoute, type);
             var result = await _requestsManager.PerformGet(route, options?.ToArgs());
             return result["data"].ToObject<T[]>();
@@ -41,10 +41,10 @@ namespace PsawSharp
             return result["data"].ToObject<string[]>();
         }
 
-        public async Task<Meta> GetMeta()
+        public async Task<MetaEntry> GetMeta()
         {
             var result = await _requestsManager.PerformGet("meta");
-            return result.ToObject<Meta>();
+            return result.ToObject<MetaEntry>();
         }
 
         #endregion

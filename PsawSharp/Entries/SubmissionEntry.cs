@@ -4,7 +4,7 @@ using PsawSharp.Converters;
 
 namespace PsawSharp.Entries
 {
-    public class Submission : IEntry
+    public class SubmissionEntry : IEntry
     {
 
         [JsonProperty("author")]

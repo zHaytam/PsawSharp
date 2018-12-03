@@ -30,7 +30,7 @@ namespace PsawSharp.Tests
         public async Task GetSubmission()
         {
             var client = new PsawClient();
-            var submmissions = await client.Search<Submission>(new SearchOptions
+            var submmissions = await client.Search<SubmissionEntry>(new SearchOptions
             {
                 Subreddit = "game",
                 Size = 1
@@ -43,7 +43,7 @@ namespace PsawSharp.Tests
         public async Task GetSubmissions()
         {
             var client = new PsawClient();
-            var submmissions = await client.Search<Submission>(new SearchOptions
+            var submmissions = await client.Search<SubmissionEntry>(new SearchOptions
             {
                 Subreddit = "game",
                 Size = 1000
@@ -66,7 +66,7 @@ namespace PsawSharp.Tests
         public async Task GetComments()
         {
             var client = new PsawClient();
-            var comments = await client.Search<Comment>(new SearchOptions
+            var comments = await client.Search<CommentEntry>(new SearchOptions
             {
                 Subreddit = "game",
                 Size = 500
@@ -85,7 +85,7 @@ namespace PsawSharp.Tests
             var commentIds = (await client.GetSubmissionCommentIds(submissionId)).Take(500).ToArray();
 
             // Only taking 500 because more would result in a [Request Line is too large (8039 > 4094)] error
-            var comments = await client.Search<Comment>(new SearchOptions
+            var comments = await client.Search<CommentEntry>(new SearchOptions
             {
                 Ids = commentIds
             });
@@ -107,7 +107,7 @@ namespace PsawSharp.Tests
 
             for (int i = 0; i < 180; i++)
             {
-                await client.Search<Submission>(options);
+                await client.Search<SubmissionEntry>(options);
                 _output.WriteLine(i + " done in " + sw.Elapsed.TotalMilliseconds);
             }
 

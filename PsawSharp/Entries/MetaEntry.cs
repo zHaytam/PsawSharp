@@ -2,7 +2,7 @@
 
 namespace PsawSharp.Entries
 {
-    public class Meta
+    public class MetaEntry
     {
 
         [JsonProperty("client_accepts_json")]
